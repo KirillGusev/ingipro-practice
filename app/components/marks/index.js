@@ -3,6 +3,20 @@ import mediator from '../mediator';
 
 class Marks {
   constructor(width, height, id) {
+    addEventListener("keydown", moveRect);
+    addEventListener("keyup", moveRect2);
+
+    function moveRect2(e){
+      if (e.shiftKey === true || e.ctrlKey === true )
+        flag = 0;
+    }
+
+    function moveRect(e) {
+      if (e.shiftKey === true && e.ctrlKey === true) {
+        flag = 1;
+      }
+    }
+    let flag = 0;
     this.id = id;
     this.domMark =  d3.select("div");
     const svg = this.domMark.append("svg")
