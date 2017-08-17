@@ -4,6 +4,7 @@
   "description": "ingipro.com practice 2017",
   "main": "index.js",
   "dependencies": {
+    "d3": "^4.10.0",
     "express": "4.15.3"
   },
   "devDependencies": {

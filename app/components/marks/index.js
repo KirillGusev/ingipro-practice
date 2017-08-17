@@ -1,12 +1,12 @@
 import './style.css';
 import mediator from '../mediator';
-
+import d3 from 'd3';
 class Marks {
   constructor(id, parent) {
     document.addEventListener("keydown", this.downShiftPlusCtrl, false);
     document.addEventListen("keyup", this.upShiftPlusCtrl, false);
 
-    flag = false;
+    this.flag = false;
     this.id = id;
     this.domMark = d3.select(parent);
     const svg = this.domMark.append("svg")
@@ -19,6 +19,7 @@ class Marks {
     .y(d => d[1])
     .curve(d3.curveLinear);
 
+    mediator.on('layout:change', this.changesvg.bind(this));
     mediator.on('3d:turn', this.deleteAll.bind(this));
     mediator.on('3d:zoom', this.deleteAll.bind(this));
     mediator.on('3d:pan', this.deleteAll.bind(this));
@@ -27,25 +28,38 @@ class Marks {
 
   downShiftPlusCtrl(e) {
     if (e.shiftKey === true || e.ctrlKey === true)
-      flag = true;
+      this.flag = true;
   }
 
   upShiftPlusCtrl(e) {
     if (e.shiftKey === true && e.ctrlKey === true) {
-      flag = true;
+      this.flag = true;
     }
   }
 
-  deleteAll() {
-    if (flag === 0) {
+  changesvg(obj){
+    if (this.flag === 0) {
       return -1;
     }
+    if (this.id === obj.id) {
+      svg
+      .style("width", obj.newWidth)
+      .style("height", obj.newHeight);
+    }
 
-    svg.selectAll("path").remove();
+  }
+
+  deleteAll(obj) {
+    if (this.flag === 0) {
+      return -1;
+    }
+    if (this.id === obj.id) {
+      svg.selectAll("path").remove();
+    }
   }
 
   mousedown() {
-    if (flag === true) {
+    if (this.flag === true) {
       return -1;
     }
 
