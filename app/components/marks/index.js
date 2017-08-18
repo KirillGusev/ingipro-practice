@@ -11,8 +11,8 @@ class Marks {
     this.id = id;
     this.domMark = d3.select(parent);
     this.svg = this.domMark.append("svg")
+    .on("mousedown", this.mousedown.bind(this));
     this.changeProportions(parent.clientWidth, parent.clientHeight);
-    .on("mousedown", this.mousedown);
 
     this.line = d3.line()
     .x(d => d[0])
@@ -86,6 +86,10 @@ class Marks {
 
     d3.select(this)
     .on("mousemove", () => {
+      if (!this.flag) {
+        d3.select(this).on("mousemove", null).on("mouseup", null);
+        return -1;
+      }
       data.push(d3.mouse(this));
       let coordinate = d3.mouse(this);
 
