@@ -1,73 +1,86 @@
-import './style.css';
-import mediator from '../mediator';
 import d3 from 'd3';
+import mediator from '../mediator';
+import './style.css';
+
 class Marks {
-  constructor(id, parent) {
-    document.addEventListener("keydown", this.downShiftPlusCtrl, false);
-    document.addEventListen("keyup", this.upShiftPlusCtrl, false);
+  constructor(id, parent, color) {
+    document.addEventListener("keydown", this._onDownShiftPlusCtrl.bind(this), false);
+    document.addEventListener("keyup", this._onUpShiftPlusCtrl.bind(this), false);
 
     this.flag = false;
     this.id = id;
     this.domMark = d3.select(parent);
-    const svg = this.domMark.append("svg")
-    .style("width", parent.clientWidth)
-    .style("height", parent.clientHeight)
+    this.svg = this.domMark.append("svg")
+    this.changeProportions(parent.clientWidth, parent.clientHeight);
     .on("mousedown", this.mousedown);
 
-    const line = d3.line()
+    this.line = d3.line()
     .x(d => d[0])
     .y(d => d[1])
     .curve(d3.curveLinear);
-
-    mediator.on('layout:change', this.changesvg.bind(this));
-    mediator.on('3d:turn', this.deleteAll.bind(this));
-    mediator.on('3d:zoom', this.deleteAll.bind(this));
-    mediator.on('3d:pan', this.deleteAll.bind(this));
-    mediator.on('marks:add', this.drowNewLine.bind(this));
+    this.metodChangeSVG = this.changeSVG.bind(this);
+    this.metodDrowNewLine = this.drowNewLine.bind(this);
+    this.metodDeleteAll = this.deleteAll.bind(this);
+    mediator.on('layout:change', this.metodChangeSVG);
+    mediator.on('3d:turn', this.metodDeleteAll);
+    mediator.on('3d:zoom', this.metodDeleteAll);
+    mediator.on('3d:pan', this.metodDeleteAll);
+    mediator.on('marks:add', this.metodDrowNewLine);
   }
 
-  downShiftPlusCtrl(e) {
+  destruct(){
+    mediator.off('layout:change', this.metodChangeSVG);
+    mediator.off('3d:turn', this.metodDeleteAll);
+    mediator.off('3d:zoom', this.metodDeleteAll);
+    mediator.off('3d:pan', this.metodDeleteAll);
+    mediator.off('marks:add', this.metodDrowNewLine);
+  }
+
+  _onDownShiftPlusCtrl(e) {
     if (e.shiftKey === true || e.ctrlKey === true)
       this.flag = true;
   }
 
-  upShiftPlusCtrl(e) {
+  _onUpShiftPlusCtrl(e) {
     if (e.shiftKey === true && e.ctrlKey === true) {
-      this.flag = true;
+      this.flag = false;
     }
   }
 
-  changesvg(obj){
-    if (this.flag === 0) {
+  changeSVG(obj){
+    if (!this.flag) {
       return -1;
     }
-    if (this.id === obj.id) {
-      svg
-      .style("width", obj.newWidth)
-      .style("height", obj.newHeight);
-    }
 
+    if (this.id === obj.id) {
+      this.changeProportions(obj.newWidth, obj.newHeight);
+    }
+  }
+
+  changeProportions(width, height) {
+    this.svg
+    .style("width", width)
+    .style("height", height);
   }
 
   deleteAll(obj) {
-    if (this.flag === 0) {
+    if (!this.flag) {
       return -1;
     }
     if (this.id === obj.id) {
-      svg.selectAll("path").remove();
+      this.svg.selectAll("path").remove();
     }
   }
 
   mousedown() {
-    if (this.flag === true) {
+    if (!this.flag) {
       return -1;
     }
 
-    let myColor = "green"; //Then I'll do it right
     let data = [];
-    const path = d3.select(this)
+    this.path = d3.select(this)
     .append("path")
-    .attr("stroke", myColor)
+    .attr("stroke", color)
     .attr("stroke-width", 4)
     .attr("fill", "none");
 
@@ -77,19 +90,19 @@ class Marks {
       let coordinate = d3.mouse(this);
 
       if (coordinate[0] > width - 5 || coordinate[0] <= 5 || coordinate[1] > height - 5 || coordinate[1] <= 5) {
-        path.attr("d", line(data));
+        this.path.attr("d", this.line(data));
         d3.select(this).on("mousemove", null).on("mouseup", null);
         data = [];
         return;
       }
 
-      path.attr("d", line(data));
+      this.path.attr("d", this.line(data));
     })
     .on("mouseup", () => {
       mediator.emit('marks:add', {
         id: this.id,
-        line: data,
-        color: myColor
+        data: data,
+        otherColor: color
       });
       d3.select(this).on("mousemove", null);
       data = [];
@@ -97,8 +110,12 @@ class Marks {
   }
 
   drowNewLine(obj) {
-    if (this.id !== obj.id) {
-      path.attr("d", obj.line);
+    //add handler to yourself
+
+    if (this.id === obj.id) {
+      this.path
+      .attr("stroke", obj.otherColor)
+      .attr("d", this.line(obj.data));
     }
   }
 }
