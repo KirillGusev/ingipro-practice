@@ -1,0 +1,14 @@
+.chat {
+    width: 20%;
+}
+
+.chat.hide {
+    display: none;
+}
+
+.message {
+    padding: 12px;
+    font-size: 16px;
+    float: left;
+    color: #4e5e73;
+}

@@ -1,6 +1,27 @@
 .users {
+	width: 200px;
 }
 
 .users.hide {
     display: none;
+}
+
+.user {
+	padding: 12px;
+	font-size: 16px;
+}
+
+.user:hover {
+	background: #e2e9f0;
+}
+
+.userName {
+	display: inline-block;
+	width: 60%;
+	color: #4e5e73;
+}
+
+.userColor {
+	display: inline-block;
+	width: 20%;
 }

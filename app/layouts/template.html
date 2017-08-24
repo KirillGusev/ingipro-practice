@@ -3,10 +3,21 @@
 <head>
     <meta charset="utf-8">
     <title>ingipro.com practice 2017</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="login">
-        <!-- login markup -->
+
+        <form>
+          <h2>Введите логин!</h2>
+          <div class="input-group input-group-lg">
+            <input type="text" class="form-control js-input">
+            <span class="input-group-btn">
+              <button class="btn btn-default js-button" type="button">Подключиться</button>
+            </span>
+          </div>
+        </form>
+
     </div>
     <div class="users">
         <!-- users markup -->
@@ -14,5 +25,13 @@
     <div class="layout">
         <!-- layout markup -->
     </div>
+    <div class="chat">
+        <div class="chat-message"></div>
+        <form>
+            <input type="text" class="chat-input">
+            <input type="submit" value="Отправить" class="chat-submit">
+        </form>
+    </div>
+	<script type="text/javascript" src="http://cdn.voximplant.com/edge/voximplant.min.js"></script>
 </body>
 </html>
