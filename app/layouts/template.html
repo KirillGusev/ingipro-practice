@@ -3,16 +3,50 @@
 <head>
     <meta charset="utf-8">
     <title>ingipro.com practice 2017</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="login">
-        <!-- login markup -->
+    <div class="login hide container">
+        <form>
+          <h2>Введите логин!</h2>
+          <div class="input-group input-group-lg">
+            <input type="text" class="form-control js-input">
+            <span class="input-group-btn">
+              <input class="btn btn-default" type="submit" value="Подключиться"/>
+            </span>
+          </div>
+        </form>
     </div>
-    <div class="users">
-        <!-- users markup -->
+    <div class="wrapper hide">
+        <div class="sidebar">
+            <!-- popup block with status of 3d part control acquiring -->
+            <div class="popup-locker popup-control-lock-status hide">
+                <p class="popup-label"></p>
+            </div>
+            <div class="popup-locker active-locker hide">
+                <p class="popup-label"></p>
+            </div>
+            <div class="users hide">
+                    <button class="microphone-button">
+                        <img src="https://png.icons8.com/microphone/ios7/25" class="microphone-icon">
+                        <span class="microphone-text">Микрофон включен</span>
+                    </button>
+            </div>
+            <div class="chat hide">
+                <div class="chat-message"></div>
+                <form>
+                    <input type="text" class="chat-input">
+                    <input type="submit" value="➤" class="chat-submit">
+                </form>
+            </div>
+        </div>
+        <div class="layout hide"></div>
     </div>
-    <div class="layout">
-        <!-- layout markup -->
-    </div>
+
+	<script src="http://cdn.voximplant.com/edge/voximplant.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js'></script>
+    <!--<script src='https://rawgit.com/mrdoob/three.js/master/examples/js/loaders/ColladaLoader.js'></script>-->
+    <script src='https://rawgit.com/mrdoob/three.js/master/examples/js/loaders/OBJLoader.js'></script>
+    <script src='https://rawgit.com/mrdoob/three.js/master/examples/js/controls/TrackballControls.js'></script>
 </body>
 </html>

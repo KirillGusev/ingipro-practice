@@ -1,6 +1,88 @@
-.layout {
-}
-
 .layout.hide {
     display: none;
+}
+
+.layout {
+    flex-grow: 1;
+    align-self: stretch;
+    position: relative;
+    display: flex;
+    background: lightgreen;
+}
+
+.layoutCell {
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 0;
+    display: flex;
+    background: coral;
+}
+
+.line {
+    cursor: pointer;
+    z-index: 3;
+}
+
+.tapeLine {
+    background: #87ceeb;
+}
+
+.cellLine {
+    background: black;
+}
+
+.external {
+    position: absolute;
+}
+
+.top {
+}
+
+.bot {
+}
+
+.left {
+    height: 100%;
+    top: 0%;
+}
+
+.right {
+    height: 100%;
+    top: 0%;
+}
+
+.tape {
+    background: #4f1022;
+}
+
+.cell {
+    background: ghostwhite;
+    overflow: hidden;
+    position: relative;
+}
+
+/* viewer */
+
+.layout .cell canvas {
+    width: 100% !important; /* ugly hack: virtual screen width growing */
+    z-index: 1;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+.layout .cell svg {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: transparent;
 }

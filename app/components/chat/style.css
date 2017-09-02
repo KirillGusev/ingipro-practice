@@ -1,0 +1,35 @@
+.chat {
+    flex-grow: 1;
+    height: 50%;
+}
+
+.chat.hide {
+    display: none;
+}
+
+.chat-message {
+    height: calc(100% - 50px);
+    overflow-y: auto;
+    overflow-x: auto;
+    border: 5px solid #385873;
+    background: #fff;
+}
+
+.chat-input {
+    height: 50px;
+    width: 200px;
+    border: 2px solid #733434;
+}
+
+.chat-submit {
+    height: 45px;
+    width: 45px;
+    font-size: 20px;
+}
+
+.message {
+    padding: 5px;
+    font-size: 14px;
+    float: left;
+    color: #4e5e73;
+}

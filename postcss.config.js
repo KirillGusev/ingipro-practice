@@ -1,18 +1,4 @@
-const caniuse = require('caniuse-api');
-
-let LATEST_STABLE_BROWSERS = {};
-caniuse.getLatestStableBrowsers().map(browser => {
-    browser = browser.split(' ');
-    LATEST_STABLE_BROWSERS[browser[0]] = parseFloat(browser[1]);
-});
-
-function getBrowserSupportedVersion(name) {
-    const version = LATEST_STABLE_BROWSERS[name];
-
-    return ['chrome', 'opera', 'firefox'].includes(name)
-        ? version - 5
-        : version;
-}
+'use strict';
 
 module.exports = {
     plugins: [
@@ -28,13 +14,7 @@ module.exports = {
         require('postcss-hexrgba'),
         require('autoprefixer')({
             browsers: [
-                `Chrome > ${getBrowserSupportedVersion('chrome')}`,
-                `Firefox > ${getBrowserSupportedVersion('firefox')}`,
-                `Opera > ${getBrowserSupportedVersion('opera')}`,
-                'Android > 4',
-                'Explorer > 9',
-                'iOS > 7',
-                'Safari > 8',
+                'last 2 version',
             ],
         }),
     ],
